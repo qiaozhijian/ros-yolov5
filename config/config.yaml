@@ -1,6 +1,4 @@
 yolov5:
   action: True
-  #  path: /home/ou/Desktop/yolov5
-  weight: /media/qzj/Dataset/code/catkin/catkin_lego/src/ros_yolo/model/best.pt
   device: gpu
   img_size: 640

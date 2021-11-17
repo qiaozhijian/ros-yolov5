@@ -10,12 +10,9 @@ class Ros2Yolo:
     def __init__(self, node_name='demo_server', name='yolo'):
         self.isaction = rospy.get_param('yolov5/action', False)
         # load param
-        self.yolo5_path = rospy.get_param('yolov5/path', None)
         self.model = rospy.get_param('yolov5/model', 'yolov5s')
-        self.weight = rospy.get_param('yolov5/weight', None)
         self.device = rospy.get_param('yolov5/device', 'gpu')
         self.img_size = rospy.get_param('yolov5/img_size', 640)
-        self.valid = False if (self.yolo5_path is None) and (self.weight is None) else True
 
         self.stride = 32
         self.half = True if self.device == 'gpu' else False
@@ -35,16 +32,9 @@ class Ros2Yolo:
             print('service mode :', name + '_service')
 
     def load_model(self):
-        if not self.valid:
-            return False
-
         self.device = torch.device('cuda:0' if (self.device != 'cpu' and torch.cuda.is_available()) else 'cpu')
-        if self.yolo5_path is None:
-            # self.model = torch.hub.load('ultralytics/yolov5', 'custom', path_or_model=self.weight)
-            self.model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
-            self.model = self.model.cuda() if self.device != 'cpu' else self.model
-        else:
-            self.model = attempt_load(self.weight, self.device, yolo_path=self.yolo5_path)
+        self.model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+        self.model = self.model.cuda() if self.device != 'cpu' else self.model
         self.stride = int(self.model.stride.max())
         self.img_size = check_img_size(self.img_size, s=self.stride)
         self.half = self.device.type != 'cpu'
