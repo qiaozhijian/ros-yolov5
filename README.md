@@ -1,6 +1,6 @@
 # YOLOv5-ROS
 ### Introduction
-This is a package combined with ROS melodic and YOLOv5. You don't have to prepare dataset and model. Just do it!
+This is a package combined with ROS melodic and YOLOv5. In this package, C++ and python are working together. You don't have to prepare dataset and model. Just do it!
 ### Environment and Dependencies
 Code was tested using Python 3.8 with PyTorch 1.7.1 and MinkowskiEngine 0.5.0 on Ubuntu 18.04 with CUDA 10.2.
 The following Python packages are required:
